@@ -2,7 +2,7 @@ package SectorGenerator
 
 import (
 	"math"
-	"fmt"
+	"encoding/json"
 )
 
 
@@ -63,7 +63,6 @@ func (gen *Generator) GeneratePoints(sectorSize float64, centerLat float64, cent
 				gen.locData = append(gen.locData, newBox)
 			}
 		}
-		fmt.Println(gen.locData)
 	}
 
 /* nice */
@@ -78,4 +77,10 @@ func calcLongitudeChange(distance float64, lat float64) float64 {
 	degToRadians := 1/radiansToDeg
 	r := earthRadius*math.Cos(lat*degToRadians)
 	return (distance/r)*radiansToDeg
+}
+
+
+func (gen *Generator) GetLocationDataJSON() ([]byte, error) {
+	object, err :=  json.MarshalIndent(gen.locData, "", "	")
+	return object, err
 }
