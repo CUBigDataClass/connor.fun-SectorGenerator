@@ -84,5 +84,5 @@ func (gen *Generator) GetLocationDataJSON() ([]byte, error) {
 }
 
 func (gen *Generator) ParseLocationDataJSON(raw []byte) (error) {
-  return json.Unmarshal(raw, gen.locData)
+  return json.Unmarshal(raw, &gen.locData)
 }
