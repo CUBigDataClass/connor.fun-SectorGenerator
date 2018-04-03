@@ -3,6 +3,7 @@ package SectorGenerator
 import (
 	"encoding/json"
 	"math"
+	"strconv"
 )
 
 /* The generator object will save all previously calculated locations. */
@@ -13,7 +14,7 @@ type Generator struct {
 /* The exported, generic location data struct */
 type LocationData struct {
 	Name      string  `json:"name"`
-	ID        int     `json:"ID"`
+	ID        string  `json:"ID"`
 	CenterLat float64 `json:"centerLat"`
 	CenterLon float64 `json:"centerLat"`
 	North     float64 `json:"north"`
@@ -38,7 +39,7 @@ func (gen *Generator) GetLocationData() []LocationData {
  *  calculates a grid of bounding boxes with unique identifiers and stores them in the Generator object.
  */
 func (gen *Generator) GeneratePoints(sectorSize float64, centerLat float64, centerLon float64,
-	radius float64, name string) {
+	radius float64, name string, abbreviation string) {
 	numSquares := math.Ceil((radius * 2) / sectorSize)
 
 	latChange := calcLatitudeChange(sectorSize)
@@ -51,13 +52,13 @@ func (gen *Generator) GeneratePoints(sectorSize float64, centerLat float64, cent
 		for j := 0; j < int(numSquares); j++ {
 			newBox := LocationData{
 				Name:      name,
-				ID:        j + (int(numSquares) * i),
+				ID:        abbreviation + strconv.Itoa(j + (int(numSquares) * i)),
 				CenterLat: centerLat,
 				CenterLon: centerLon,
-				North:     initialLat - (float64(i) * latChange),
+				North:     initialLat + (float64(i+1) * latChange),
+				South:     initialLat + (float64(i) * latChange),
 				East:      initialLon + (float64(j) * lonChange),
-				South:     initialLat - (float64(i+1) * latChange),
-				West:      initialLon + (float64(j-1) * lonChange),
+				West:      initialLon + (float64(j+1) * lonChange),
 			}
 			gen.locData = append(gen.locData, newBox)
 		}
