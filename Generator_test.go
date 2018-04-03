@@ -19,10 +19,10 @@ func TestGenerator_GetLocationDataJSON(t *testing.T) {
 	fmt.Println(string(object))
 
 
-	gen = NewGenerator()
-	gen.GeneratePoints(5, 34.0522, -118.2437, 10, "Los Angeles", "LA")
-	object, _ = gen.GetLocationDataJSON()
-	fmt.Println(string(object))
+	//gen = NewGenerator()
+	//gen.GeneratePoints(5, 34.0522, -118.2437, 10, "Los Angeles", "LA")
+	//object, _ = gen.GetLocationDataJSON()
+	//fmt.Println(string(object))
 }
 
 func TestGenerator_ParseLocationDataJSON(t *testing.T) {

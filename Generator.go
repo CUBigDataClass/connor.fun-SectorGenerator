@@ -16,7 +16,7 @@ type LocationData struct {
 	Name      string  `json:"name"`
 	ID        string  `json:"ID"`
 	CenterLat float64 `json:"centerLat"`
-	CenterLon float64 `json:"centerLat"`
+	CenterLon float64 `json:"centerLon"`
 	North     float64 `json:"north"`
 	East      float64 `json:"east"`
 	South     float64 `json:"south"`
@@ -50,15 +50,19 @@ func (gen *Generator) GeneratePoints(sectorSize float64, centerLat float64, cent
 
 	for i := 0; i < int(numSquares); i++ {
 		for j := 0; j < int(numSquares); j++ {
+			north := initialLat + (float64(i+1) * latChange)
+			south := initialLat + (float64(i) * latChange)
+			east  := initialLon + (float64(j) * lonChange)
+			west  := initialLon + (float64(j+1) * lonChange)
 			newBox := LocationData{
 				Name:      name,
 				ID:        abbreviation + strconv.Itoa(j + (int(numSquares) * i)),
-				CenterLat: centerLat,
-				CenterLon: centerLon,
-				North:     initialLat + (float64(i+1) * latChange),
-				South:     initialLat + (float64(i) * latChange),
-				East:      initialLon + (float64(j) * lonChange),
-				West:      initialLon + (float64(j+1) * lonChange),
+				CenterLat: (north + south) / 2,
+				CenterLon: (east + west) / 2,
+				North:     north,
+				South:     south,
+				East:      east,
+				West:      west,
 			}
 			gen.locData = append(gen.locData, newBox)
 		}
@@ -80,7 +84,7 @@ func calcLongitudeChange(distance float64, lat float64) float64 {
 }
 
 func (gen *Generator) GetLocationDataJSON() ([]byte, error) {
-	object, err := json.MarshalIndent(gen.locData, "", "	")
+	object, err := json.MarshalIndent(&gen.locData, "", "	")
 	return object, err
 }
 
