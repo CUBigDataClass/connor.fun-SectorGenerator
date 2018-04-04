@@ -14,14 +14,11 @@ func TestGenerator_GeneratePoints(t *testing.T) {
 
 func TestGenerator_GetLocationDataJSON(t *testing.T) {
 	var gen = NewGenerator()
-	gen.GeneratePoints(5, 40.7128, -74.0060, 10, "New York", "NY")
+	gen.GeneratePoints(20, 40.0150, -105.2705, 1, "Boulder", "BLD")
+	gen.GeneratePoints(20, 40.7128, -74.0060, 1, "New York", "NY")
+	gen.GeneratePoints(20, 34.0522, -118.2437, 1, "Los Angeles", "LA")
+	gen.GeneratePoints(20, 47.6062, -122.3321, 1, "Seattle", "SEA")
 	object, _ := gen.GetLocationDataJSON()
-	fmt.Println(string(object))
-
-
-	gen = NewGenerator()
-	gen.GeneratePoints(5, 34.0522, -118.2437, 10, "Los Angeles", "LA")
-	object, _ = gen.GetLocationDataJSON()
 	fmt.Println(string(object))
 }
 
