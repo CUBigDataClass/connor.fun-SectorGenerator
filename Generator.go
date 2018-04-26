@@ -1,4 +1,4 @@
-package main
+package generator
 
 import (
 	"encoding/json"
@@ -30,8 +30,10 @@ func main() {
 	// 	815, 1400, 375, 600)
 	// gen.GeneratePoints("United States", "USA", 37, -96.5795,
 	// 	825, 1425, 825, 650)
-	gen.GeneratePoints("United States", "USA", 37, -96.5795,
-		850, 1425, 850, 1600)
+	// gen.GeneratePoints("United States", "USA", 37, -96.5795,
+	// 	850, 1425, 850, 1600)
+	gen.GeneratePoints("United States", "", 39, -102,
+		500, 500, 50, 50)
 	val, _ := gen.GetLocationDataJSON()
 	fmt.Println(string(val))
 }
@@ -70,7 +72,7 @@ func (gen *Generator) GeneratePoints(name string, abbreviation string, centerLat
 			west := initialLon + (float64(j+1) * lonChange)
 			newBox := LocationData{
 				Name:      name,
-				ID:        abbreviation + strconv.Itoa(j+(int(numCols)*i)),
+				ID:        abbreviation + strconv.Itoa(j+(int(numRows)*i)),
 				CenterLat: (north + south) / 2,
 				CenterLon: (east + west) / 2,
 				North:     north,
